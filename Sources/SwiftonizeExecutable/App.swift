@@ -12,7 +12,7 @@ extension PathKit.Path: Decodable {
 		let c = try decoder.singleValueContainer()
 		self.init(try c.decode(String.self))
 	}
-	
+	var is_json: Bool { self.extension == "json" }
 	
 }
 
@@ -26,7 +26,7 @@ struct App: AsyncParsableCommand {
 		commandName: "swiftonize",
 		abstract: "Generate static references for autocompleted resources like images, fonts and localized strings in Swift projects",
 		version: "0.2",
-		subcommands: [Generate.self, Extension.self, Extension2.self]
+		subcommands: [Generate.self, Extension.self, Extension2.self, Json.self]
 	)
 	
 	@Option(transform: { s in
@@ -38,31 +38,32 @@ struct App: AsyncParsableCommand {
 	}) var pyextra: Void?
 	
 	static func launchPython() throws {
-		let processInfo = ProcessInfo()
-		
-		let (stdlib, extra) = try {
-			//return ( PythonResources.python_stdlib, PythonResources.python_extra)
-			if let stdlib = App.pythonlib, let pyextra = App.extra {
-				return (stdlib, pyextra)
-			}
-			else if let call = processInfo.arguments.first {
-				let callp = PathKit.Path(call)
-				if callp.isSymlink {
-					let real = try callp.symlinkDestination()
-					let root = real.parent()
-					return (
-						(root + "python-stdlib").string,
-						(root + "python-extra").string
-					)
-				}
-			}
-			return ("","")
-		}()
-		
+//		let processInfo = ProcessInfo()
+//		
+//		let (stdlib, extra) = try {
+//			//return ( PythonResources.python_stdlib, PythonResources.python_extra)
+//			if let stdlib = App.pythonlib, let pyextra = App.extra {
+//				return (stdlib, pyextra)
+//			}
+//			
+//			else if let call = processInfo.arguments.first {
+//				let callp = PathKit.Path(call)
+//				if callp.isSymlink {
+//					let real = try callp.symlinkDestination()
+//					let root = real.parent()
+//					return (
+//						(root + "python-stdlib").string,
+//						(root + "python-extra").string
+//					)
+//				}
+//			}
+//			return ("","")
+//		}()
+		let stdlib = "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11"
 		
 		let python = PythonHandler.shared
 		if !python.defaultRunning {
-			python.start(stdlib: stdlib, app_packages: [extra], debug: true)
+			python.start(stdlib: stdlib, app_packages: [], debug: true)
 		}
 	}
 }
@@ -153,6 +154,29 @@ extension App {
 					try await build_wrapper_extension2(src: pyi, dst: file.swiftFile(destination), site: site)
 				}
 			}
+			
+		}
+	}
+	
+	struct Json: AsyncParsableCommand {
+		static var configuration = CommandConfiguration(abstract: "Generates swiftonized file")
+		@Argument(transform: { p -> PathKit.Path in .init(p) }) var source: Path
+		@Argument(transform: { p -> PathKit.Path in .init(p) }) var destination: Path
+		
+		//@Option(transform: { p -> PathKit.Path? in .init(p) }) var site: Path?
+		
+		func run() async throws {
+			
+			
+			//try App.launchPython()
+			let json_files = source.filter(\.is_json)
+			
+			for file in json_files {
+				let fname = file.lastComponentWithoutExtension
+				
+				try await build_wrapper(json: file, dst: destination + "\(fname).swift", site: nil)
+			}
+			
 			
 		}
 	}

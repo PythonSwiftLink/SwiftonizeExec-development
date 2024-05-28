@@ -15,7 +15,7 @@
       "location" : "https://github.com/PythonSwiftLink/PyAst",
       "state" : {
         "branch" : "master",
-        "revision" : "2b8bb998355a183dc5002f3054a1768e4f4b6e99"
+        "revision" : "57e106986bd6e86bc62a00b8fba32e2d2c01f71a"
       }
     },
     {
@@ -42,7 +42,7 @@
       "location" : "https://github.com/PythonSwiftLink/PythonSwiftLink-development",
       "state" : {
         "branch" : "master",
-        "revision" : "63777de93fcff9eb2f48bd4b56cd98b5a228dbac"
+        "revision" : "d20209aad58f2e328d3915848e060256c0169d11"
       }
     },
     {
@@ -78,7 +78,7 @@
       "location" : "https://github.com/PythonSwiftLink/Swiftonize-development",
       "state" : {
         "branch" : "master",
-        "revision" : "d6163755f6b8475a1cb0c9afb47e3354ee18d8fd"
+        "revision" : "8c4312b53f9dcd59ed649b4e5e0b84685abe3461"
       }
     },
     {

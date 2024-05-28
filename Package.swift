@@ -80,7 +80,7 @@ let package = Package(
 				"PathKit"
 			],
 			swiftSettings: [
-				
+				//.define("LOCAL")
 			]
 		),
     ]

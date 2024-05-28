@@ -12,6 +12,7 @@ import PySwiftCore
 import PathKit
 import PyWrapper
 import PythonCore
+import PyAst
 
 public let astorToSource: PyPointer = pythonImport(from: "astor", import_name: "to_source")!
 
@@ -125,7 +126,7 @@ func build_wrapper_extension2(src: Path, dst: Path, site: Path?, beeware: Bool =
 	let filename = src.lastComponentWithoutExtension
 	let code = try src.read(.utf8)
 	//let module = try await WrapModule(fromAst: filename, string: code, swiftui: beeware)
-	let module = try PyWrap.parse(string: code)
+	let module = try PyWrap.parse(filename: filename,string: code)
 	let module_code = try module.file().formatted().description
 //	let temp_cls_code = module.classes.first!.extensionFile.formatted().description
 	
@@ -142,12 +143,23 @@ func build_wrapper_extension2(src: Path, dst: Path, site: Path?, beeware: Bool =
 //	}
 }
 
+func build_wrapper(json src: Path, dst: Path, site: Path?, beeware: Bool = true) async throws {
+	
+	let filename = src.lastComponentWithoutExtension
+	let code = try src.read()
+	let module = try PyWrap.parse(json: filename, data: code)
+	let module_code = try module.file().formatted().description
+	
+	try dst.write(module_code)
+	
+}
+
 func build_wrapper(src: Path, dst: Path, site: Path?, beeware: Bool = true) async throws {
     
 	let filename = src.lastComponentWithoutExtension
 	let code = try src.read(.utf8)
 	//let module = try await WrapModule(fromAst: filename, string: code, swiftui: beeware)
-	let module = try PyWrap.parse(string: code)
+	let module = try PyWrap.parse(filename: filename,string: code)
 	let module_code = try module.file().formatted().description
     
     //let module = try await WrapModule(fromAst: filename, string: code, swiftui: beeware)

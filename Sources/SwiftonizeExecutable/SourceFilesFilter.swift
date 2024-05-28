@@ -7,6 +7,8 @@
 
 import Foundation
 import PathKit
+import PyAstParser
+import PyAst
 
 enum WrapSource {
     case pyi(path: Path)
@@ -24,6 +26,16 @@ enum WrapSource {
             return dst + "\(pyi.lastComponentWithoutExtension).swift"
         }
     }
+	func jsonFile(_ dst: Path) -> Path {
+		switch self {
+		case .pyi(let path):
+			return dst + "\(path.lastComponentWithoutExtension).json"
+		case .py(let path):
+			return dst + "\(path.lastComponentWithoutExtension).json"
+		case .both(_, let pyi):
+			return dst + "\(pyi.lastComponentWithoutExtension).json"
+		}
+	}
 }
 
 class SourceFilter {
@@ -34,6 +46,8 @@ class SourceFilter {
         
         let pyis = root.filter({$0.extension == "pyi"})
         var pys = root.filter({$0.extension == "py"})
+		let jsons = root.filter({ $0.extension == "json" })
+		
         sources = []
         for src in pyis {
             let fname = src.lastComponentWithoutExtension
@@ -53,4 +67,9 @@ class SourceFilter {
     }
     
     
+}
+
+
+class SourcePreProcessor {
+	
 }

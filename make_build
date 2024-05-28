@@ -1,7 +1,11 @@
 swift package purge-cache
 swift package reset
-# rm -rf .build
-#swift build -c release --disable-sandbox --arch arm64 --arch x86_64 --scheme SwiftonizeExecutable 
+rm -rf .build
+swift build -c release --disable-sandbox --arch x86_64 
+swift build -c release --disable-sandbox --arch arm64
+X64BIN="./.build/x86_64-apple-macosx/release/SwiftonizeExecutable"
+ARMBIN="./.build/arm64-apple-macosx/release/SwiftonizeExecutable"
+lipo -create $X64BIN $ARMBIN -output SwiftonizeBin
 # xcodebuild build -scheme SwiftonizeExecutable -sdk macosx -destination "generic/platform=macOS,name=Any Mac"
-rm -rf export
-xcodebuild build -scheme SwiftonizeExecutable -sdk macosx -configuration Release -destination "generic/platform=macOS,name=Any Mac" -derivedDataPath ./export
+#rm -rf export
+#xcodebuild build -scheme SwiftonizeExecutable -sdk macosx -configuration Release -destination "generic/platform=macOS,name=Any Mac" -derivedDataPath ./export
