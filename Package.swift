@@ -36,7 +36,8 @@ if local {
 } else {
 	if development {
 		packages.append(contentsOf: [
-			.package(url: "https://github.com/PythonSwiftLink/\(packageName("Swiftonize"))",branch: "master"),
+//			.package(url: "https://github.com/PythonSwiftLink/\(packageName("Swiftonize"))",branch: "development"),
+			.package(url: "https://github.com/PythonSwiftLink/Swiftonize",branch: "development"),
 			.package(url: "https://github.com/PythonSwiftLink/\(packageName("PythonSwiftLink"))",branch: "master")
 			
 		])
@@ -75,7 +76,8 @@ let package = Package(
 				.product(name: "PyDecode", package: packageName("PythonSwiftLink")),
 				.product(name: "PyEncode", package: packageName("PythonSwiftLink")),
 				.product(name: "PyCallable", package: packageName("PythonSwiftLink")),
-				.product(name: "SwiftonizeNew", package: packageName("Swiftonize")),
+				//.product(name: "SwiftonizeNew", package: packageName("Swiftonize")),
+				.product(name: "SwiftonizeNew", package: "Swiftonize"),
 				.product(name: "PythonCore", package: "PythonCore"),
 				"PathKit"
 			],
