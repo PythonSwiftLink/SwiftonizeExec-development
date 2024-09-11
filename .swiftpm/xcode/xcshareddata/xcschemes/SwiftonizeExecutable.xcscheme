@@ -49,6 +49,32 @@
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "generate-pip"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "generate"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Volumes/CodeSSD/PSL-development/psp_tests/packages/PyFoundation/Sources/PyFoundation/wrappers"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Volumes/CodeSSD/PSL-development/psp_tests/packages/PyWebViews/Sources/PyWebViews/wrappers"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Volumes/CodeSSD/PSL-development/psp_tests/packages/PyCoreBluetooth/Sources/PyCoreBluetooth/wrappers"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Volumes/CodeSSD/PSL-development/psp_tests/wrapper_exports"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

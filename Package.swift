@@ -4,7 +4,7 @@
 import PackageDescription
 
 let development = true
-let local = false
+let local = true
 
 var swiftonize_string: String {
 	if development { return "Swiftonize-development" }
@@ -30,7 +30,8 @@ var packages: [Package.Dependency] = [
 
 if local {
 	packages.append(contentsOf: [
-		.package(path: "../\(packageName("Swiftonize"))"),
+		//.package(path: "../\(packageName("Swiftonize"))"),
+		.package(path: "/Volumes/CodeSSD/GitHub/Swiftonize"),
 		.package(path: "../\(packageName("PythonSwiftLink"))"),
 	])
 } else {
@@ -78,6 +79,7 @@ let package = Package(
 				.product(name: "PyCallable", package: packageName("PythonSwiftLink")),
 				//.product(name: "SwiftonizeNew", package: packageName("Swiftonize")),
 				.product(name: "SwiftonizeNew", package: "Swiftonize"),
+				.product(name: "ShadowPip", package: "Swiftonize"),
 				.product(name: "PythonCore", package: "PythonCore"),
 				"PathKit"
 			],

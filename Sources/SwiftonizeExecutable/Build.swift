@@ -14,6 +14,8 @@ import PyWrapper
 import PythonCore
 import PyAst
 
+import ShadowPip
+
 public let astorToSource: PyPointer = pythonImport(from: "astor", import_name: "to_source")!
 
 public enum BuildWrapSpecType {

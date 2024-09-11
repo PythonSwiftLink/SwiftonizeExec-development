@@ -25,8 +25,8 @@ struct App: AsyncParsableCommand {
 	static var configuration = CommandConfiguration(
 		commandName: "swiftonize",
 		abstract: "Generate static references for autocompleted resources like images, fonts and localized strings in Swift projects",
-		version: "0.5.0",
-		subcommands: [Generate.self, Extension.self, Extension2.self, Json.self]
+		version: "0.6.0",
+		subcommands: [Generate.self, Extension.self, Extension2.self, Json.self, GeneratePip.self]
 	)
 	
 	@Option(transform: { s in
@@ -96,6 +96,36 @@ extension App {
 			}
 			
 		}
+	}
+}
+
+import ShadowPip
+struct GeneratePip: AsyncParsableCommand {
+	static var configuration = CommandConfiguration(abstract: "Generates swiftonized file")
+	@Argument(transform: { p -> PathKit.Path in .init(p) }) var source: Path
+	@Argument(transform: { p -> PathKit.Path in .init(p) }) var destination: Path
+	
+	@Option(transform: { p -> PathKit.Path? in .init(p) }) var site: Path?
+	
+	func run() async throws {
+		print(source)
+		
+		try App.launchPython()
+		
+		let wrappers = try SourceFilter(root: source)
+		
+		for file in wrappers.sources {
+			
+			switch file {
+			case .pyi(let path):
+				try ShadowPip.test(file: path.url, dst: file.jsonFile(destination).url)
+			case .py(let path):
+				try ShadowPip.test(file: path.url, dst: file.jsonFile(destination).url)
+			case .both(_, let pyi):
+				try ShadowPip.test(file: pyi.url, dst: file.jsonFile(destination).url)
+			}
+		}
+		
 	}
 }
 
