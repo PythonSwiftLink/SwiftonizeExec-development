@@ -4,7 +4,7 @@
 import PackageDescription
 
 let development = true
-let local = true
+let local = false
 
 var swiftonize_string: String {
 	if development { return "Swiftonize-development" }
