@@ -3,7 +3,7 @@
 
 import PackageDescription
 
-let development = true
+let development = false
 let local = false
 
 var swiftonize_string: String {
@@ -44,7 +44,8 @@ if local {
 		])
 	} else {
 		packages.append(contentsOf: [
-			.package(url: "https://github.com/PythonSwiftLink/\(packageName("Swiftonize"))",from: .init(311, 0, 0)),
+			.package(url: "https://github.com/PythonSwiftLink/Swiftonize",branch: "development"),
+			//.package(url: "https://github.com/PythonSwiftLink/\(packageName("Swiftonize"))",from: .init(311, 0, 0)),
 			.package(url: "https://github.com/PythonSwiftLink/\(packageName("PythonSwiftLink"))",from: .init(311, 0, 0))
 		])
 	}
